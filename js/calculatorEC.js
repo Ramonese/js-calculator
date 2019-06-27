@@ -12,17 +12,94 @@ if (document.documentElement.classList.add) {
   };
 }
 if (cutMustard.addClass) {
-  console.log("cutting the mustard!");
   var pageTheme = document.querySelector("body");
   pageTheme.classList.add("testvl--basic-template");
 
+  var data = [
+    {
+      users: 5,
+      defaultPrice: 170,
+      basicOption: 20,
+      videoOption: 35,
+      implementation: 3,
+    },
+    {
+      users: 10,
+      defaultPrice: 250,
+      basicOption: 30,
+      videoOption: 35,
+      implementation: 3,
+    },
+    {
+      users: 15,
+      defaultPrice: 320,
+      basicOption: 40,
+      videoOption: 40,
+      implementation: 3,
+    },
+    {
+      users: 20,
+      defaultPrice: 400,
+      basicOption: 50,
+      videoOption: 50,
+      implementation: 4,
+    },
+    {
+      users: 25,
+      defaultPrice: 480,
+      basicOption: 60,
+      videoOption: 60,
+      implementation: 4,
+    },
+    {
+      users: 30,
+      defaultPrice: 560,
+      basicOption: 70,
+      videoOption: 70,
+      implementation: 5,
+    },
+    {
+      users: 35,
+      defaultPrice: 640,
+      basicOption: 80,
+      videoOption: 80,
+      implementation: 5,
+    }
+  ]
+
+function price(users) {
+    let price = 170;
+    return users * price;
+  }
+  function findUserData(input) {
+    let result = data.find(item => item.users === input);
+    console.log(result)
+    return result;
+  }
+  function options(array, users) {
+    let user = findUserData(users);
+    let result = user.basicOption;
+    console.log("OPTION", result);
+    return result
+  }
+  function sumOptions(users, optionCount) {
+    const user = findUserData(users);
+    let price = user.basicOption;
+    let result = price * optionCount; 
+    return result;
+  }
+  var module;
+  module.exports = {
   
-  export { sum };
+    price: price,
+    options: options,
+    findUserData: findUserData,
+    sumOptions: sumOptions
+  }
+ 
 }
 /* Efficiency calculator */
-export default function sum(a, b) {
-  return a + b;
-}
+
 // if (typeof module !== "undefined" && module.exports) {
 //   var module;
 //   module.exports = {
