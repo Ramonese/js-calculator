@@ -1,0 +1,67 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--<link rel="stylesheet" type="text/css" href="/../template/prototype.css">-->
+
+
+	<link rel="stylesheet" type="text/css" href="sass/vl-saima-2018.css">
+
+</head>
+
+<body>
+	<div class="grid">
+
+
+		<div class="vismaFi-container saima-calculator">
+			<div class="form-column first">
+				<form autocomplete="off" id="ecCalculator">
+					<div class="Form__Element FormSelection">
+						<label for="ec__Input">Users</label>
+						<select name="ec__Input">
+							<option value="">0-50</option>
+							<option value="">50-100</option>
+						</select>
+					</div>
+					<div class="Form__Element">
+						<label for="ec__options">Choose options</label>
+
+						<label for="ec__option1"><input type="checkbox" name="ec__options" value="1" disabled checked
+								id="ec__option1" />Default</label>
+
+						<label for="ec__option2"><input type="checkbox" name="ec__options" value="2" id="ec__option2" />2</label>
+
+						<label for="ec__option3"><input type="checkbox" name="ec__options" value="3" id="ec__option3" />3</label>
+					</div>
+				</form>
+			</div>
+			<div class="flex-column calculator-result">
+				<p>
+					<span>Kuukausihinta:</span>
+					<span id="totalPriceMonth" class="priceFormat">&nbsp;</span>
+				</p>
+				<p>
+					<span>Hinta per henkilö:</span>
+					<span id="totalPricePerson" class="priceFormat">&nbsp;</span>
+				</p>
+				<p>
+					<span>Hinta vuodessa:</span>
+					<span id="totalPriceYear" class="priceFormat">&nbsp;</span>
+				</p>
+				<p>
+					<span>Valittuja moduleita:</span>
+					<span id="modules" class="priceFormat">&nbsp;</span>
+				</p>
+			</div>
+		</div>
+
+	</div>
+
+	
+	<script src="js/calculatorEC.js"></script>
+</body>
+
+</html>
