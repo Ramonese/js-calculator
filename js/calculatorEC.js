@@ -14,8 +14,24 @@ if (document.documentElement.classList.add) {
 if (cutMustard.addClass) {
   var pageTheme = document.querySelector("body");
   pageTheme.classList.add("testvl--basic-template");
+  //Get input from screen = user count
+  let input = 9;
+  let basicOptCount = 2;
+  let videoOptCount = 1;
+  const implementationPrice = 1125;
 
-  var data = [
+  function Prices() {
+    this.users= 5;
+    this.defaultPrice= 170;
+    this.basicOption= 20;
+    this.videoOption= 35;
+    this.videoOption= 35;
+    this.implementation = 3;
+    pricePerMonth = pricePerMonth(this.users, this.defaultPrice);
+      
+  }
+  
+  const data = [
     {
       users: 5,
       defaultPrice: 170,
@@ -67,10 +83,10 @@ if (cutMustard.addClass) {
     }
   ]
 
-function price(users) {
-    let price = 170;
-    return users * price;
-  }
+  // function price(users) {
+  //   let price = 170;
+  //   return users * price;
+  // }
   function findUserData(input) {
     let result = data.find(item => item.users === input);
     console.log(result)
@@ -88,16 +104,22 @@ function price(users) {
     let result = price * optionCount; 
     return result;
   }
+  function pricePerUser(user, price) {
+    return price / user;
+  }
+
   var module;
   module.exports = {
   
-    price: price,
+   // price: price,
     options: options,
     findUserData: findUserData,
-    sumOptions: sumOptions
+    sumOptions: sumOptions,
+    pricePerUser: pricePerUser
   }
  
 }
+
 /* Efficiency calculator */
 
 // if (typeof module !== "undefined" && module.exports) {
