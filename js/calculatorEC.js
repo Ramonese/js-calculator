@@ -18,19 +18,7 @@ if (cutMustard.addClass) {
   let input = 9;
   let basicOptCount = 2;
   let videoOptCount = 1;
-  const implementationPrice = 1125;
-
-  function Prices() {
-    this.users= 5;
-    this.defaultPrice= 170;
-    this.basicOption= 20;
-    this.videoOption= 35;
-    this.videoOption= 35;
-    this.implementation = 3;
-    pricePerMonth = pricePerMonth(this.users, this.defaultPrice);
-      
-  }
-  
+ 
   const data = [
     {
       users: 5,
@@ -82,42 +70,154 @@ if (cutMustard.addClass) {
       implementation: 5,
     }
   ]
+  //Constructor for calculator prices
+  //var Prices = function (users, defaultPrice, basicOptionPrice, videoOptionPrice, implementationDays) {
+  class ECCalculator {
+    constructor(users, data) {
+      this.users = users;
+      this.data = data;
+      this.basePrice = null;
+      this.implementationPrice = 1250;
+    }
+    calcImplementationCost(days, price) {
+      return days * price;
+    }
+    calcOptionPrice(optionCount, optionPrice) {
+      return optionCount * optionPrice;
+    }
+    calcPricePerUser(basePrice, userCount) {
+      return basePrice/userCount;
+    }
+    getDefaultPrices(users) {
+      const userCount = users;
+      return this.data.find(el => el.users === userCount);
+    }
+    getBasePrice(userCount) {
+      const users = userCount;
+      const prices = this.getDefaultPrices(users);
+      const basePrice = prices.defaultPrice
+      console.log("###################")
+      console.log(basePrice)
+      return basePrice;
+    }
+    getOptionPrice(userCount) {
+      const users = userCount;
+      const prices = this.getDefaultPrices(users);
+      const optionPrice = prices.basicOption;
+      console.log("###################")
+      console.log(optionPrice)
+      return optionPrice;
+    }
+    // getDefaultPrices(users) {
+    //   const userCount = users;
+    //   var prices = this.data.find(el => el.users === userCount)
+    //   this.basePrice = prices.defaultPrice;
+    //   return this.basePrice
+    // }
+    // Calculate(x,y)
+    // {
+    //   return x * y;
+    // }
 
-  // function price(users) {
-  //   let price = 170;
-  //   return users * price;
-  // }
-  function findUserData(input) {
-    let result = data.find(item => item.users === input);
-    console.log(result)
-    return result;
-  }
-  function options(array, users) {
-    let user = findUserData(users);
-    let result = user.basicOption;
-    console.log("OPTION", result);
-    return result
-  }
-  function sumOptions(users, optionCount) {
-    const user = findUserData(users);
-    let price = user.basicOption;
-    let result = price * optionCount; 
-    return result;
-  }
-  function pricePerUser(user, price) {
-    return price / user;
-  }
+    
+    // getUIPriceElementValues() {
+    //   const userCount = this.users;
+    //   let UIPrice = {
 
+    //   };
+      
+    //   var priceValues = this.data.find(el => el.users === userCount)
+
+    //   UIPrice.basePrice = CalculateBasePricePerUsers(userCount, priceValues.defaultPrice);
+    //   UIPrice.basePrice = CalculateBasePricePerUsers(userCount, priceValues.defaultPrice);
+    //   UIPrice.implementationPrice = CalculateBasePricePerUsers(userCount, priceValues.defaultPrice);
+      
+      
+    //   UIPrice.op1Price = CalculateBasePricePerUsers(userCount, priceValues.defaultPrice);
+    //   UIPrice.op2Price = CalculateBasePricePerUsers(userCount, priceValues.defaultPrice);
+    //   UIPrice.op3Price = CalculateBasePricePerUsers(userCount, priceValues.defaultPrice);
+      
+   
+    //   this.basePrice = price
+    //     console.log(this.basePrice)
+    //   return UIPrice;
+    // }
+   
+  }
+  // var users5 = new ECCalculator(20, data);
+  // console.log("create new user: ######", users5.users);
+  // var price = users5.calcImplementationCost(2, users5.implementationPrice);
+  // console.log("F-ng price", price)
   var module;
-  module.exports = {
+  module.exports = { ECCalculator: ECCalculator };
+// function test(a) {
+//    return a*2
+//  }
   
-   // price: price,
-    options: options,
-    findUserData: findUserData,
-    sumOptions: sumOptions,
-    pricePerUser: pricePerUser
-  }
+  //TODO how to write this
+  // ECCalculator.prototype = {
+  //   constructor: ECCalculator,
+  //  implementPrice: 1125,
+
+  //   pricePerUser: function () {
+  //     return this.getBasePrice / this.user;
+  //   },
+  //   optionPrice: function () {
+  //     return this.basicOptionPrice * basicOptCount;
+  //   },
+  //   implementationPrice: function () {
+  //     return this.implementationDays * this.implementPrice;
+  //   },
+  //   }
+
+
+  //   //optionPrice: function () { return priceOption(this.basicOptionPrice, basicOptCount) }
+  //   //optionPrice: priceOption(this.basicOptionPrice, basicOptCount) 
+  //   // optionPrice: function () {
+  //   //   console.log(this.basicOptionPrice, basicOptCount)
+  //   //   console.log(priceOption(this.basicOptionPrice, basicOptCount))
+  //   //}
+  
+  
  
+  
+  
+  // // function price(users) {
+  // //   let price = 170;
+  // //   return users * price;
+  // // }
+  
+  // function findUserData(input) {
+  //   let result = data.find(item => item.users === input);
+  //   console.log(result)
+  //   return result;
+  // }
+  // function options(array, users) {
+  //   let user = findUserData(users);
+  //   let result = user.basicOption;
+  //   console.log("OPTION", result);
+  //   return result
+  // }
+  // function sumOptions(users, optionCount) {
+  //   const user = findUserData(users);
+  //   let price = user.basicOption;
+  //   let result = price * optionCount; 
+  //   return result;
+  // }
+
+
+  //var module;
+  // module.exports = {
+  //   ECCalculator: ECCalculator,
+  //  // price: price,
+  //   //options: options,
+  //   //findUserData: findUserData,
+  //   //sumOptions: sumOptions,
+  //   // pricePerUser: pricePerUser,
+  //   // priceImplementation: priceImplementation,
+  //   // priceOption: priceOption
+  // }
+
 }
 
 /* Efficiency calculator */
