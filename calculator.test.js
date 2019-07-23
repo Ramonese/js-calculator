@@ -59,14 +59,11 @@ const data = [
 const user = new calculator.ECCalculator(5, data);
 const user2 = new calculator.ECCalculator(35, data);
 
-// test.only('find user price data from array', () => {
-//   expect(calculator.test(2)).toBe(4)
-// });
 
 const users = user.users;
 const userCount2 = user2.users;
 test('calculate implementation cost based on implementation days', () => {
-  expect(user.calcImplementationCost(2, user.implementationPrice)).toBe(2500)
+  expect(user.calcImplementationCost(3)).toBe(3375)
 });
 test('calculate option total price', () => {
   expect(user.calcOptionPrice(2, 20)).toBe(40)
@@ -102,8 +99,11 @@ test('get base price in user group 1-5', () => {
 test('get base price in user group 30-35', () => {
   expect(user.getBasePrice(userCount2)).toBe(640);
 });
-test.only('get option price in user group 1-5', () => {
+test('get option price in user group 1-5', () => {
   expect(user.getOptionPrice(users)).toBe(20);
+});
+test.only('get all prices for UI in user group 1-5', () => {
+  expect(user.uiPrices(users)).toBe(20);
 });
 // test('returns price based on user count', () => {
 //   expect(calculator.price(5)).toBe(170);
