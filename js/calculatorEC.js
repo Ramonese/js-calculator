@@ -57,56 +57,38 @@ const data = [
 	},
 ];
 // Get input from screen = user count
-const input = 9;
-const basicOptCount = 2;
-const videoOptCount = 1;
+// const input = 9;
+// const basicOptCount = 2;
+// const videoOptCount = 1;
 const implementationPrice = 1250;
 // let videoOption=true;
 class ECCalculator {
 	constructor (users) {
 		this.users = users;
-		this.price = new Prices(users);
+		this.prices = data.find(function (element) {
+			// console.log("what is users", typeof users, element.users, element.users == users);
+			return element.users === users;
+		});
 	}
-	
+
 	basePrice() {
-		return this.users;
+		return this.prices.basePrice;
 	}
-	
+
+	optionPrice() {
+		return this.prices.optionPrice;
+	}
+
+	videoOptionPrice() {
+		return this.prices.videoOptionPrice;
+	}
+
 	implementationCost(price) {
-		const time = this.price.implementationTime();
+		const time = this.price.implementDays;
 		return time * price;
 	}
 }
 
-class Prices {
-	constructor (userCount) {
-		this.users = userCount;
-		this.priceList = this.getDefaultPrices(this.users);
-	}
-
-	// Find Price based on user count
-	getDefaultPrices (users) {
-		const price = data.find(el => el.users === users);
-		console.log("Price from Price", price);
-		return price;
-	}
-
-	basePrice() {
-		return this.priceList.basePrice;
-	}
-
-	videoOptionPrice () {
-		return this.priceList.videoOptionPrice;
-	}
-
-	optionPrice() {
-		return this.priceList.optionPrice;
-	}
-
-	implementationTime() {
-		return this.priceList.implementDays;
-	}
-}
 function sumOptionCost(optionPrice, optionCount) {
 	return optionPrice * optionCount;
 }
@@ -116,18 +98,14 @@ function sumTotalPrice (price, option, videoOption) {
 function calcPricePerUser (total, user) {
 	return total / user;
 }
-var users5 = new ECCalculator(10, 10);
-const x = users5.price.optionPrice();
-console.log('#### get ui price', x);
-const y = users5.implementationCost(implementationPrice);
-console.log('#### get ui o price', y);
 
 const ui = document.getElementById("ecCalculator");
 const ui_userCount = ui.querySelector('select');
+const ui_form = ui.querySelector('form');
 const ui_optionCount = ui.querySelectorAll('input[type=checkbox]');
-console.log(ui, ui_userCount, ui_optionCount);
+console.log(ui, ui_userCount, ui_optionCount, ui_form);
 let optionSelectedCount = 0;
-ui_optionCount.forEach(el => {
+ui_optionCount.forEach(function(el) {
 	el.addEventListener('change', function () {
 		if (this.checked === true) {
 			console.log("check");
@@ -144,23 +122,46 @@ ui_optionCount.forEach(el => {
 const ui_total = document.getElementById('ec-totalPriceMonth').textContent;
 let ui_monthly = document.getElementById('ec-totalPricePerson').textContent;
 let ui_implementation = document.getElementById('ec-implementCost').textContent;
-
+let userCountInitial = 5;
+let userCountCurrent = 0;
+const initialCalc = new ECCalculator(userCountInitial);
 ui_userCount.addEventListener('change', function (ev) {
-	const users = ev.target.value;
-	console.log(users);
-	const calc = new ECCalculator(users, users);
-	console.log(calc);
-	//debugger
-	const defaultPrice = calc.price.optionPrice();
-
-	console.log("Price", defaultPrice);
-
-	implementation = calc.implepmentationCost(implementationPrice);
-	ui_monthly = calcPricePerUser(sumTotalPrice(), users);
-	ui_implementation = calc.implementationCost();
-	ui_total = sumTotalPrice();
-	sumOptionCost(10, optionCount);
+	// DOM input allways is String
+	userCountCurrent = Number(ev.target.value);
+	return userCountCurrent;
+	
+// 	
+// 	ui_monthly = calcPricePerUser(sumTotalPrice(), users);
+// 	ui_implementation = calc.implementationCost();
+// 	ui_total = sumTotalPrice();
+// 	sumOptionCost(10, optionCount);
 });
 
+// update result on any change
+ui_form.addEventListener('change', function () {
+	//console.log(userCountInitial, userCountCurrent, optionSelectedCount);
+	if (userCountCurrent === userCountInitial) {
+		return initialCalc;
+	}
+	else {
+		const calc = new ECCalculator(userCountCurrent);
+		setPricesUI(calc);
+	}
+	
+	//updateUI();
+});
+function updateUI() {
+	//const calc = new ECCalculator(5);
+	console.log(calc);
+}
+
+function setPricesUI(object) {
+	const defaultPrice = object.basePrice();
+	const optionPrice = object.optionPrice();
+	const optionCost = sumOptionCost(optionPrice, optionSelectedCount);
+	const totalCost = sumTotalPrice(defaultPrice, optionCost, 10);
+	console.log("price", defaultPrice);
+	//implementation = calc.implepmentationCost(implementationPrice);
+}
 var module;
-module.exports = { ECCalculator: ECCalculator, Prices: Prices };
+module.exports = { ECCalculator: ECCalculator };
