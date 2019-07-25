@@ -14,7 +14,7 @@
 		<div class="vismaFi-container ec-calculator">
 			<div class="form-column first">
 				<section id="ecCalculator">
-					<form autocomplete="off" >
+					<form autocomplete="off">
 						<div class="Form__Element FormSelection">
 							<label for="ec__Input">Users</label>
 							<select name="ec__Input">
@@ -28,27 +28,32 @@
 						<div class="Form__Element">
 							<label for="ec__options">Choose options</label>
 							<label for="ec__option1"><input type="checkbox" name="ec__options" value="1" disabled checked
-									id="ec__option1" />Default</label>
-							<label for="ec__option2"><input type="checkbox" name="ec__options" value="2"
-									id="ec__option2" />SSO-kirjautuminen</label>
-							<label for="ec__option3"><input type="checkbox" name="ec__options" value="3"
-									id="ec__option3" />SMS-hakijaviestintä</label>
-							<label for="ec__option4"><input type="checkbox" name="ec__options" value="4" id="ec__option4" />Avoin
-								rajapinta</label>
-							<label for="ec__videoOption"><input type="checkbox" name="ec__options" value="4"
-									id="ec__videoOption" />Videohaastattelutoiminnallisuus</label>
+									id="ec__option1" />Default Price</label>
+							<div class="ec__basePrice">
+								<label for="ec__option2"><input type="checkbox" name="ec__options" value="2"
+										id="ec__option2" />SSO-kirjautuminen</label>
+								<label for="ec__option3"><input type="checkbox" name="ec__options" value="3"
+										id="ec__option3" />SMS-hakijaviestintä</label>
+								<label for="ec__option4"><input type="checkbox" name="ec__options" value="4" id="ec__option4" />Avoin
+									rajapinta</label>
+							</div>
+							<div class="ec__extraPrice">
+								<label for="ec__videoOption"><input type="checkbox" name="ec__options" value="4"
+										id="ec__videoOption" />Videohaastattelutoiminnallisuus</label>
+							</div>
+
 						</div>
 					</form>
 				</section>
 			</div>
 			<div class="flex-column ec-calculator-result">
 				<p>
-					<span>Total Price :</span>
-					<span id="ec-totalPriceMonth" class="priceFormat">&nbsp;</span>
+					<span>Price per person/month:</span>
+					<span id="ec-totalPricePerson" class="priceFormat">&nbsp;eee</span>
 				</p>
 				<p>
-					<span>Price per person/month:</span>
-					<span id="ec-totalPricePerson" class="priceFormat">&nbsp;</span>
+					<span>Total Price:</span>
+					<span id="ec-totalPriceMonth" class="priceFormat">&nbsp;</span>
 				</p>
 				<p>
 					<span>Implementation Price:</span>

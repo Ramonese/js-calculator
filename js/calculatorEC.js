@@ -61,7 +61,7 @@ const data = [
 // const basicOptCount = 2;
 // const videoOptCount = 1;
 const implementationPrice = 1250;
-// let videoOption=true;
+
 class ECCalculator {
 	constructor (users) {
 		this.users = users;
@@ -84,7 +84,7 @@ class ECCalculator {
 	}
 
 	implementationCost(price) {
-		const time = this.price.implementDays;
+		const time = this.prices.implementDays;
 		return time * price;
 	}
 }
@@ -92,76 +92,91 @@ class ECCalculator {
 function sumOptionCost(optionPrice, optionCount) {
 	return optionPrice * optionCount;
 }
-function sumTotalPrice (price, option, videoOption) {
+function sumTotalPrice(price, option, videoOption) {
 	return price + option + videoOption;
 }
-function calcPricePerUser (total, user) {
+function calcPricePerUser(total, user) {
 	return total / user;
 }
-
+// Form UI DOM elements
 const ui = document.getElementById("ecCalculator");
 const ui_userCount = ui.querySelector('select');
 const ui_form = ui.querySelector('form');
-const ui_optionCount = ui.querySelectorAll('input[type=checkbox]');
-console.log(ui, ui_userCount, ui_optionCount, ui_form);
+const ui_optionCount = ui.querySelectorAll('.ec__basePrice input[type=checkbox]');
+const ui_videoOptionCount = ui.querySelectorAll('.ec__extraPrice input[type=checkbox]');
+
 let optionSelectedCount = 0;
-ui_optionCount.forEach(function(el) {
+let videoOptionSelected = false;
+
+ui_optionCount.forEach(function (el) {
 	el.addEventListener('change', function () {
 		if (this.checked === true) {
-			console.log("check");
 			optionSelectedCount = optionSelectedCount + 1;
-		}
-		else {
+		} else {
 			optionSelectedCount = optionSelectedCount - 1;
 		}
-		return optionSelectedCount;
+		console.log(optionSelectedCount);
 	});
 }
 );
-
-const ui_total = document.getElementById('ec-totalPriceMonth').textContent;
-let ui_monthly = document.getElementById('ec-totalPricePerson').textContent;
-let ui_implementation = document.getElementById('ec-implementCost').textContent;
-let userCountInitial = 5;
-let userCountCurrent = 0;
-const initialCalc = new ECCalculator(userCountInitial);
+ui_videoOptionCount.forEach(function (el) {
+	el.addEventListener('change', function () {
+		if (this.checked === true) {
+			videoOptionSelected = true;
+		} else {
+			videoOptionSelected = false;
+		}
+		console.log(videoOptionSelected);
+	});
+}
+);
 ui_userCount.addEventListener('change', function (ev) {
 	// DOM input allways is String
 	userCountCurrent = Number(ev.target.value);
 	return userCountCurrent;
-	
-// 	
-// 	ui_monthly = calcPricePerUser(sumTotalPrice(), users);
-// 	ui_implementation = calc.implementationCost();
-// 	ui_total = sumTotalPrice();
-// 	sumOptionCost(10, optionCount);
 });
-
-// update result on any change
-ui_form.addEventListener('change', function () {
-	//console.log(userCountInitial, userCountCurrent, optionSelectedCount);
-	if (userCountCurrent === userCountInitial) {
-		return initialCalc;
-	}
-	else {
-		const calc = new ECCalculator(userCountCurrent);
-		setPricesUI(calc);
-	}
-	
-	//updateUI();
-});
-function updateUI() {
-	//const calc = new ECCalculator(5);
-	console.log(calc);
-}
+// Result UI DOM elements
+const ui_total = document.getElementById('ec-totalPriceMonth');
+const ui_monthly = document.getElementById('ec-totalPricePerson');
+const ui_implementation = document.getElementById('ec-implementCost');
+const userCountInitial = 5;
+let userCountCurrent = 5;
 
 function setPricesUI(object) {
 	const defaultPrice = object.basePrice();
 	const optionPrice = object.optionPrice();
 	const optionCost = sumOptionCost(optionPrice, optionSelectedCount);
-	const totalCost = sumTotalPrice(defaultPrice, optionCost, 10);
+	const implementationCost = object.implementationCost(implementationPrice);
+	// If video option is selected, get its price
+	const videoOption = videoOptionSelected ? object.videoOptionPrice() : 0;
+	const totalCost = sumTotalPrice(defaultPrice, optionCost, videoOption);
+	const pricePerUser = calcPricePerUser(totalCost, userCountCurrent);
 	console.log("price", defaultPrice);
-	//implementation = calc.implepmentationCost(implementationPrice);
+	// Update DOM
+	ui_monthly.textContent = pricePerUser;
+	ui_total.textContent = totalCost;
+	ui_implementation.textContent = implementationCost;
 }
+
+// update result on any change in the form
+ui_form.addEventListener('change', function () {
+	if (userCountCurrent === userCountInitial) {
+		const calc = new ECCalculator(userCountInitial);
+		setPricesUI(calc);
+		console.log(calc);
+	} else {
+		const calc = new ECCalculator(userCountCurrent);
+		setPricesUI(calc);
+		console.log(calc);
+	}
+});
+function updateUI() {
+	const calc = new ECCalculator(userCountInitial);
+	console.log(calc);
+	setPricesUI(calc);
+}
+// Initial state
+updateUI();
+
 var module;
 module.exports = { ECCalculator: ECCalculator };
