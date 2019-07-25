@@ -1,128 +1,101 @@
-const calculator = require('./js/calculatorEC.js');
-//import { sum } from './js/calculatorEC.js';
-//Get input from screen = user count
-let input = 9;
-let basicOptCount = 2;
-let videoOptCount = 1;
+/* eslint-disable no-undef */
+const calculator = require("./js/calculatorEC.js");
 
+// Get input from screen = user count
+const input = 9;
+const basicOptCount = 2;
+const videoOptCount = false;
 const data = [
-  {
-    users: 5,
-    defaultPrice: 170,
-    basicOption: 20,
-    videoOption: 35,
-    implementation: 3,
-  },
-  {
-    users: 10,
-    defaultPrice: 250,
-    basicOption: 30,
-    videoOption: 35,
-    implementation: 3,
-  },
-  {
-    users: 15,
-    defaultPrice: 320,
-    basicOption: 40,
-    videoOption: 40,
-    implementation: 3,
-  },
-  {
-    users: 20,
-    defaultPrice: 400,
-    basicOption: 50,
-    videoOption: 50,
-    implementation: 4,
-  },
-  {
-    users: 25,
-    defaultPrice: 480,
-    basicOption: 60,
-    videoOption: 60,
-    implementation: 4,
-  },
-  {
-    users: 30,
-    defaultPrice: 560,
-    basicOption: 70,
-    videoOption: 70,
-    implementation: 5,
-  },
-  {
-      users: 35,
-      defaultPrice: 640,
-      basicOption: 80,
-      videoOption: 80,
-      implementation: 5,
-    }
-]
-const user = new calculator.ECCalculator(5, data);
-const user2 = new calculator.ECCalculator(35, data);
+	{
+		users: 5,
+		basePrice: 170,
+		optionPrice: 20,
+		videoOptionPrice: 35,
+		implementDays: 3
+	},
+	{
+		users: 10,
+		basePrice: 250,
+		optionPrice: 30,
+		videoOptionPrice: 35,
+		implementDays: 3
+	},
+	{
+		users: 15,
+		basePrice: 320,
+		optionPrice: 40,
+		videoOptionPrice: 40,
+		implementDays: 3
+	},
+	{
+		users: 20,
+		basePrice: 400,
+		optionPrice: 50,
+		videoOptionPrice: 50,
+		implementDays: 4
+	},
+	{
+		users: 25,
+		basePrice: 480,
+		optionPrice: 60,
+		videoOptionPrice: 60,
+		implementDays: 4
+	},
+	{
+		users: 30,
+		basePrice: 560,
+		optionPrice: 70,
+		videoOptionPrice: 70,
+		implementDays: 5
+	},
+	{
+		users: 35,
+		basePrice: 640,
+		optionPrice: 80,
+		videoOptionPrice: 80,
+		implementDays: 5
+	}
+];
+const user5 = new calculator.ECCalculator(5);
+const user35 = new calculator.ECCalculator(35);
+const price = {
+	users: 35,
+	basePrice: 640,
+	optionPrice: 80,
+	videoOptionPrice: 80,
+	implementDays: 5
+};
+describe("testing ECCalculator class", () => {
+	const implementationPrice = 1125;
+	test("find prices per user group 30-35", () => {
+		expect(user35.prices).toEqual(price);
+	});
+	test("get base price", () => {
+		expect(user35.basePrice()).toEqual(640);
+	});
+	test("get option price", () => {
+		expect(user35.optionPrice()).toEqual(80);
+	});
+	test("get video option price", () => {
+		expect(user35.videoOptionPrice()).toEqual(80);
+	});
+	test("get implementation cost ", () => {
+		expect(user35.implementationCost(implementationPrice)).toEqual(5 * implementationPrice);
+	});
+});
+describe("testing sum functionality", () => {
+	test("sum option cost", () => {
+		expect(calculator.sumOptionCost(80, 2)).toBe(160);
+	});
+	test("sum total price", () => {
+		expect(calculator.sumTotalPrice(640, 80, 80)).toBe(800);
+	});
+	test("calculate price per user", () => {
+		expect(calculator.calcPricePerUser(800, 35)).toBe(22.86);
+	});
+	test("format floating point number", () => {
+		expect(calculator.formatToNumber(22.7777)).toBe(22.78);
+	});
 
+});
 
-const users = user.users;
-const userCount2 = user2.users;
-test('calculate implementation cost based on implementation days', () => {
-  expect(user.calcImplementationCost(3)).toBe(3375)
-});
-test('calculate option total price', () => {
-  expect(user.calcOptionPrice(2, 20)).toBe(40)
-});
-test('calculate lowest price per user/month', () => {
-  const price = 170;
-  expect(user.calcPricePerUser(price, users)).toBe(34)
-});
-test('find prices per user group 1-5', () => {
-  const price = {
-      users: 5,
-      defaultPrice: 170,
-      basicOption: 20,
-      videoOption: 35,
-      implementation: 3,
-    };
-
-  expect(user.getDefaultPrices(users)).toEqual(price)
-});
-test('find prices per user group 30-35', () => {
-  const price2 = {
-      users: 35,
-      defaultPrice: 640,
-      basicOption: 80,
-      videoOption: 80,
-      implementation: 5,
-    }
-  expect(user.getDefaultPrices(userCount2)).toEqual(price2)
-});
-test('get base price in user group 1-5', () => {
-  expect(user.getBasePrice(users)).toBe(170);
-});
-test('get base price in user group 30-35', () => {
-  expect(user.getBasePrice(userCount2)).toBe(640);
-});
-test('get option price in user group 1-5', () => {
-  expect(user.getOptionPrice(users)).toBe(20);
-});
-test.only('get all prices for UI in user group 1-5', () => {
-  expect(user.uiPrices(users)).toBe(20);
-});
-// test('returns price based on user count', () => {
-//   expect(calculator.price(5)).toBe(170);
-// });
-// test('returns option price based on user count', () => {
-//   expect(calculator.options(data, 10)).toBe(30);
-// });
-// test('get option price based on user count , option price & option count', () => {
-//   expect(calculator.sumOptions(5, 2)).toBe(40);
-// });
-// test('get option price based on user count , option price & option count', () => {
-//   expect(calculator.sumOptions(5, 2)).toBe(40);
-// });
-// test('calculate user price per month', () => {
-//   expect(calculator.pricePerUser(10, 250)).toBe(25);
-// });
-// test('calculate implementation price based on days necessary', () => {
-//   expect(calculator.priceImplementation(5, implementationPrice)).toBe(5625);
-// });
-// test('calculate total price for selected options', () => {
-//   expect(calculator.priceOption(60, optionCount)).toBe(120)
-// })
